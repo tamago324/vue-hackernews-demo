@@ -1,0 +1,78 @@
+<template>
+  <article class="item">
+    <figure class="item-left">
+      <p>{{ item.score }}</p>
+    </figure>
+    <div class="item-content">
+      <div>
+        <a :href="item.url">{{ item.title }}</a> <span class="has-text-grey-light small">({{ site }})</span>
+      </div>
+      <div class="has-text-gley-light small">
+        by <a href="#">{{ item.by }}</a> {{ time }} | 
+        <a href="#">{{ commentCnt }} comments</a>
+      </div>
+    </div>
+  </article>
+</template>
+
+<script>
+export default {
+  name: 'Item',
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    site() {
+      let parser = new URL(this.item.url);
+      return parser.host;
+    },
+
+    time() {
+      // TODO: 8 hour ago みたいにする
+      return this.item.time;
+    },
+
+    commentCnt() {
+      // TODO: 実際の値を返す
+      return 100;
+    },
+  },
+};
+</script>
+
+<style scoped>
+/* bulma の media を参考にした */
+.item {
+  align-items: flex-start;
+  display: flex;
+  text-align: left;
+}
+
+.item .item-content:not(:last-child) {
+  margin-bottom: 0.75rem;
+}
+
+.item-left {
+  text-align: center;
+  align-self: center;
+  flex-basis: 60px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  color: #f0b9af;
+  font-weight: bold;
+}
+
+.item-content {
+  flex-basis: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+  .small {
+    font-size: 0.9rem;
+    color: #aaaaaa;
+  }
+</style>
