@@ -70,6 +70,7 @@ export default {
   align-items: flex-start;
   display: flex;
   text-align: left;
+  padding: 0.7rem;
 }
 
 .item .item-content:not(:last-child) {
