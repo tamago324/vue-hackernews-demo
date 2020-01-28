@@ -5,7 +5,7 @@
     </figure>
     <div class="item-content">
       <div>
-        <a :href="item.url">{{ item.title }}</a>
+        <a :href="item.url" target="_blank">{{ item.title }}</a>
         <span class="has-text-grey-light small"> ({{ site }})</span>
       </div>
       <div class="has-text-gley-light small">
