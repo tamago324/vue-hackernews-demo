@@ -1,18 +1,28 @@
 <template>
   <div id="app">
     <template v-for="item in items">
-      <Item :key="item.id" :item="item" class="story"/>
+      <Item
+        :key="item.id"
+        class="story"
+        v-bind="{
+          itemScore: item.score,
+          itemUrl: item.url,
+          itemBy: item.by,
+          itemTitle: item.title,
+          itemTime: item.time,
+        }"
+      />
     </template>
   </div>
 </template>
 
 <script>
-import Item from './components/Item.vue'
+import Item from './components/Item.vue';
 
 export default {
   name: 'app',
   components: {
-    Item
+    Item,
   },
   data() {
     return {
@@ -56,7 +66,7 @@ export default {
       ],
     };
   },
-}
+};
 </script>
 
 <style>

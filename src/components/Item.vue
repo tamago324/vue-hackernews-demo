@@ -1,15 +1,15 @@
 <template>
   <article class="item">
     <figure class="item-left">
-      <p>{{ item.score }}</p>
+      <p>{{ itemScore }}</p>
     </figure>
     <div class="item-content">
       <div>
-        <a :href="item.url" target="_blank">{{ item.title }}</a>
+        <a :href="itemUrl" target="_blank">{{ itemTitle }}</a>
         <span class="has-text-grey-light small"> ({{ site }})</span>
       </div>
       <div class="has-text-gley-light small">
-        by <a href="#">{{ item.by }}</a> {{ time(item.time) }} ago |
+        by <a href="#">{{ itemBy }}</a> {{ time(itemTime) }} ago |
         <a href="#">{{ commentCnt }} comments</a>
       </div>
     </div>
@@ -20,14 +20,30 @@
 export default {
   name: 'Item',
   props: {
-    item: {
-      type: Object,
+    itemScore: {
+      type: Number,
+      required: true,
+    },
+    itemUrl: {
+      type: String,
+      required: true,
+    },
+    itemBy: {
+      type: String,
+      required: true,
+    },
+    itemTitle: {
+      type: String,
+      required: true,
+    },
+    itemTime: {
+      type: Number,
       required: true,
     },
   },
   computed: {
     site() {
-      let parser = new URL(this.item.url);
+      let parser = new URL(this.itemUrl);
       return parser.host;
     },
 
@@ -44,7 +60,7 @@ export default {
       // ミリ秒で取得できる
       const diff_milisec = now - unixtime.getTime();
 
-      const min = (diff_milisec / 1000) / 60;
+      const min = diff_milisec / 1000 / 60;
 
       if (min < 60) {
         return min + ' ' + (min === 1 ? 'min' : 'mins');
