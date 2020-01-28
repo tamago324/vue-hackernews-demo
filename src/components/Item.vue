@@ -5,10 +5,11 @@
     </figure>
     <div class="item-content">
       <div>
-        <a :href="item.url">{{ item.title }}</a> <span class="has-text-grey-light small">({{ site }})</span>
+        <a :href="item.url">{{ item.title }}</a>
+        <span class="has-text-grey-light small"> ({{ site }})</span>
       </div>
       <div class="has-text-gley-light small">
-        by <a href="#">{{ item.by }}</a> {{ time }} | 
+        by <a href="#">{{ item.by }}</a> {{ time(item.time) }} ago |
         <a href="#">{{ commentCnt }} comments</a>
       </div>
     </div>
@@ -30,14 +31,34 @@ export default {
       return parser.host;
     },
 
-    time() {
-      // TODO: 8 hour ago みたいにする
-      return this.item.time;
-    },
-
     commentCnt() {
       // TODO: 実際の値を返す
       return 100;
+    },
+  },
+
+  methods: {
+    time(t) {
+      const now = Date.now();
+      const unixtime = new Date(t * 1000);
+      // ミリ秒で取得できる
+      const diff_milisec = now - unixtime.getTime();
+
+      const min = (diff_milisec / 1000) / 60;
+
+      if (min < 60) {
+        return min + ' ' + (min === 1 ? 'min' : 'mins');
+      }
+
+      const hour = Math.trunc(min / 60);
+
+      if (hour < 24) {
+        // 小数点以下を切り捨て
+        return hour + ' ' + (hour === 1 ? 'hour' : 'hours');
+      }
+
+      const day = Math.trunc(hour / 24);
+      return day + ' ' + (day === 1 ? 'day' : 'days');
     },
   },
 };
@@ -71,8 +92,8 @@ export default {
   flex-shrink: 1;
 }
 
-  .small {
-    font-size: 0.9rem;
-    color: #aaaaaa;
-  }
+.small {
+  font-size: 0.9rem;
+  color: #aaaaaa;
+}
 </style>
