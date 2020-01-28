@@ -10,7 +10,7 @@
       </div>
       <div class="has-text-gley-light small">
         by <a href="#">{{ itemBy }}</a> {{ time(itemTime) }} ago |
-        <a href="#">{{ commentCnt }} comments</a>
+        <a href="#">{{ itemDescendants }} comments</a>
       </div>
     </div>
   </article>
@@ -40,16 +40,16 @@ export default {
       type: Number,
       required: true,
     },
+    itemDescendants: {
+      type: Number,
+      required: true,
+    }
   },
+
   computed: {
     site() {
       let parser = new URL(this.itemUrl);
       return parser.host;
-    },
-
-    commentCnt() {
-      // TODO: 実際の値を返す
-      return 100;
     },
   },
 

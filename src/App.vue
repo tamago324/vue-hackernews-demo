@@ -10,6 +10,7 @@
           itemBy: item.by,
           itemTitle: item.title,
           itemTime: item.time,
+          itemDescendants: item.descendants,
         }"
       />
     </template>
@@ -72,7 +73,7 @@ export default {
 <style>
 #app {
   margin: 0 auto;
-  width: 600px;
+  width: 820px;
 }
 
 .story:not(:last-child) {
