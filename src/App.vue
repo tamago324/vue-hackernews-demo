@@ -2,9 +2,9 @@
   <div id="app">
     <template v-for="item in items">
       <Item
-        :key="item.id"
+        v-bind:key="item.id"
         class="story"
-        v-bind="{
+        v-bind:="{
           itemScore: item.score,
           itemUrl: item.url,
           itemBy: item.by,
@@ -14,59 +14,42 @@
         }"
       />
     </template>
+    <template v-if="topStories !== null">
+      {{ topStories }}
+    </template>
   </div>
 </template>
 
 <script>
 import Item from './components/Item.vue';
 
+// hackernews API は database
+import firebase from 'firebase/app';
+import 'firebase/database';
+
+// v0 が今のバージョン
+const api = firebase
+  .initializeApp({ databaseURL: 'https://hacker-news.firebaseio.com' })
+  .database()
+  .ref('/v0');
+
 export default {
   name: 'app',
   components: {
     Item,
   },
+
   data() {
     return {
-      items: [
-        {
-          by: 'cmod',
-          descendants: 546,
-          id: 22107823,
-          // kinds は多かったから、省略している
-          kids: [22108598, 22109987],
-          score: 1463,
-          time: 1579621102,
-          title: 'Every Google result now looks like an ad',
-          type: 'story',
-          url: 'https://twitter.com/craigmod/status/1219644556003565568',
-        },
-        {
-          by: 'cmod',
-          descendants: 546,
-          id: 22107823,
-          // kinds は多かったから、省略している
-          kids: [22108598, 22109987],
-          score: 1463,
-          time: 1579621102,
-          title: 'Every Google result now looks like an ad',
-          type: 'story',
-          url: 'https://twitter.com/craigmod/status/1219644556003565568',
-        },
-        {
-          by: 'cmod',
-          descendants: 546,
-          id: 22107823,
-          // kinds は多かったから、省略している
-          kids: [22108598, 22109987],
-          score: 1463,
-          time: 1579621102,
-          title: 'Every Google result now looks like an ad',
-          type: 'story',
-          url: 'https://twitter.com/craigmod/status/1219644556003565568',
-        },
-      ],
+      items: [],
+      topStories: null,
     };
   },
+
+  firebase: {
+    topStories: api.child('topstories'),
+  },
+
 };
 </script>
 
