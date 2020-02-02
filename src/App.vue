@@ -1,19 +1,21 @@
 <template>
   <div id="app">
-    <template v-for="item in items">
-      <Item
-        v-bind:key="item.id"
-        class="story"
-        v-bind="{
-          itemScore: item.score,
-          itemUrl: item.url,
-          itemBy: item.by,
-          itemTitle: item.title,
-          itemTime: item.time,
-          itemDescendants: item.descendants,
-        }"
-      />
-      {{ item.sroce }}
+    <template v-for="itemId in topStories">
+      <!-- ここで v&#45;if を使ってしまうと、 -->
+      <template v-if="itemId in items">
+        <Item
+          v-bind:key="itemId"
+          class="story"
+          v-bind="{
+            itemScore: items[itemId].score,
+            itemUrl: items[itemId].url,
+            itemBy: items[itemId].by,
+            itemTitle: items[itemId].title,
+            itemTime: items[itemId].time,
+            itemDescendants: items[itemId].descendants,
+          }"
+        />
+      </template>
     </template>
     <!-- <template v&#45;if="topStories !== null"> -->
     <!--   {{ topStories }} -->
@@ -42,7 +44,7 @@ export default {
 
   data() {
     return {
-      items: [],
+      items: {},
       topStories: null,
     };
   },
@@ -61,18 +63,35 @@ export default {
         return;
       }
 
-      this.items = []
       newVal.slice(0, 10).forEach(id => {
-        // 値の取得ができる (１度きり)
-        api.child(`/item/${id}`).once('value', snapshot => {
-          // // eslint-disable-next-line no-console
-          // console.log(snapshot.val());
-          this.items.push(snapshot.val());
+        // 値の変更によって処理が実行できる (変更があるたびに第２引数の関数が呼び出される)
+        api.child(`/item/${id}`).on('value', snapshot => {
+          // eslint-disable-next-line no-console
+          console.log(id);
+          this.items[id] = snapshot.val();
         });
       });
-    },
+      // eslint-disable-next-line no-console
+      console.log("done");
+  },
   },
 
+  // これどう使えばいいのかよくわからん
+  computed: {
+    topItems() {
+      if (this.topStories === null) {
+        return [];
+      }
+      // topStories の順番で 10 個だけ items を返す
+      return this.topStories
+        .forEach(id => {
+          return this.items[id];
+        });
+        //   .filter(item => {
+        //   return item.id in this.items;
+        // })
+    },
+  },
 };
 </script>
 
