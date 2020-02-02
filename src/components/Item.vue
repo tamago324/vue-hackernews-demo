@@ -10,7 +10,7 @@
       </div>
       <div class="has-text-gley-light small">
         by <a href="#">{{ itemBy }}</a> {{ time(itemTime) }} ago |
-        <a href="#">{{ itemDescendants }} comments</a>
+        <a href="#">{{ descentants }} comments</a>
       </div>
     </div>
   </article>
@@ -42,7 +42,8 @@ export default {
     },
     itemDescendants: {
       type: Number,
-      required: true,
+      // コメントが 0 件の場合、含まれないため
+      required: false,
     }
   },
 
@@ -51,6 +52,11 @@ export default {
       let parser = new URL(this.itemUrl);
       return parser.host;
     },
+
+    descentants() {
+      // コメントが 0 件の場合、含まれないため
+      return this.itemDescendants || 0;
+    }
   },
 
   methods: {
@@ -63,7 +69,7 @@ export default {
       const min = diff_milisec / 1000 / 60;
 
       if (min < 60) {
-        return min + ' ' + (min === 1 ? 'min' : 'mins');
+        return Math.trunc(min) + ' ' + (min === 1 ? 'min' : 'mins');
       }
 
       const hour = Math.trunc(min / 60);

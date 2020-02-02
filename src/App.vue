@@ -4,7 +4,7 @@
       <Item
         v-bind:key="item.id"
         class="story"
-        v-bind:="{
+        v-bind="{
           itemScore: item.score,
           itemUrl: item.url,
           itemBy: item.by,
@@ -13,10 +13,11 @@
           itemDescendants: item.descendants,
         }"
       />
+      {{ item.sroce }}
     </template>
-    <template v-if="topStories !== null">
-      {{ topStories }}
-    </template>
+    <!-- <template v&#45;if="topStories !== null"> -->
+    <!--   {{ topStories }} -->
+    <!-- </template> -->
   </div>
 </template>
 
@@ -29,7 +30,7 @@ import 'firebase/database';
 
 // v0 が今のバージョン
 const api = firebase
-  .initializeApp({ databaseURL: 'https://hacker-news.firebaseio.com' })
+  .initializeApp({databaseURL: 'https://hacker-news.firebaseio.com'})
   .database()
   .ref('/v0');
 
@@ -48,6 +49,28 @@ export default {
 
   firebase: {
     topStories: api.child('topstories'),
+  },
+
+  watch: {
+    topStories(newVal, oldVal) {
+      if (
+        newVal !== null &&
+        oldVal !== null &&
+        newVal.slice(0, 10) === oldVal.slice(0, 10)
+      ) {
+        return;
+      }
+
+      this.items = []
+      newVal.slice(0, 10).forEach(id => {
+        // 値の取得ができる (１度きり)
+        api.child(`/item/${id}`).once('value', snapshot => {
+          // // eslint-disable-next-line no-console
+          // console.log(snapshot.val());
+          this.items.push(snapshot.val());
+        });
+      });
+    },
   },
 
 };
