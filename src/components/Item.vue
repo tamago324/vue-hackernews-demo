@@ -17,46 +17,64 @@
 </template>
 
 <script>
+import {api} from '../db.js';
+
 export default {
   name: 'Item',
+
+  data() {
+    return {
+      item: null,
+    };
+  },
+
+  // もらった id をもとに取得するため、関数にしている
+  firebase() {
+    return {
+      item: api.child(`/item/${this.itemId}`),
+    };
+  },
+
   props: {
-    itemScore: {
+    itemId: {
       type: Number,
       required: true,
     },
-    itemUrl: {
-      type: String,
-      required: true,
-    },
-    itemBy: {
-      type: String,
-      required: true,
-    },
-    itemTitle: {
-      type: String,
-      required: true,
-    },
-    itemTime: {
-      type: Number,
-      required: true,
-    },
-    itemDescendants: {
-      type: Number,
-      // コメントが 0 件の場合、含まれないため
-      required: false,
-    }
   },
 
   computed: {
     site() {
-      let parser = new URL(this.itemUrl);
+      if (this.getProperty('url') === '') {
+        return '';
+      }
+      let parser = new URL(this.item.url);
       return parser.host;
     },
 
     descentants() {
       // コメントが 0 件の場合、含まれないため
-      return this.itemDescendants || 0;
-    }
+      return this.getProperty('descendants') || 0;
+    },
+
+    itemScore() {
+      return this.getProperty('score');
+    },
+
+    itemUrl() {
+      return this.getProperty('url');
+    },
+
+    itemTitle() {
+      return this.getProperty('title');
+    },
+
+    itemTime() {
+      return this.getProperty('time');
+    },
+
+    itemBy() {
+      return this.getProperty('by');
+    },
   },
 
   methods: {
@@ -82,6 +100,15 @@ export default {
       const day = Math.trunc(hour / 24);
       return day + ' ' + (day === 1 ? 'day' : 'days');
     },
+
+    // null の可能性もある？ため、チェックする
+    getProperty(key) {
+      if (this.item === null || !(key in this.item)) {
+        return '';
+      }
+      return this.item[key];
+    },
+
   },
 };
 </script>
