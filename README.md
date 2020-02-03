@@ -1,5 +1,8 @@
 # vue-hackernews-demo
 
+* HackerNews clone
+* [Live demo](https://peaceful-shockley-f710c9.netlify.com/)
+
 ## Project setup
 ```
 yarn install
