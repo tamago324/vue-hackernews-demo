@@ -1,23 +1,20 @@
 <template>
   <div id="app">
-    <ItemList :page="1" :top-stories="topStories" />
+    <router-link :to="{ name: 'page', params: { page: 1 } }">1</router-link>
+    <router-link :to="{ name: 'page', params: { page: 2 } }">2</router-link>
+    <router-link :to="{ name: 'page', params: { page: 3 } }">3</router-link>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import ItemList from './components/ItemList.vue';
-
 import {api} from './db.js';
 
 export default {
   name: 'app',
-  components: {
-    ItemList,
-  },
 
   data() {
     return {
-      items: {},
       topStories: null,
     };
   },

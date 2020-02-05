@@ -25,21 +25,26 @@ export default {
   props: {
     page: {
       type: Number,
-      required: true,
     },
-    topStories: {
-      type: Array,
-    },
+  },
+
+  data() {
+    return {
+      topStories: [],
+    };
   },
 
   computed: {
     topItems() {
+      if (this.$parent.topStories === null) {
+        return [];
+      }
       const start = (this.page - 1) * 10;
       const end = this.page * 10;
-      return this.topStories.slice(start, end);
-    }
-  }
-
+      // 親のデータにアクセス
+      return this.$parent.topStories.slice(start, end);
+    },
+  },
 };
 </script>
 
