@@ -1,11 +1,17 @@
 import Vue from 'vue';
 import App from './App.vue';
+
 import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
+
 import {rtdbPlugin} from 'vuefire';
+
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faAngleRight, faAngleLeft} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+
+import skeleton from 'tb-skeleton';
+import 'tb-skeleton/dist/skeleton.css';
 
 import router from './router/index';
 
@@ -17,11 +23,12 @@ Vue.config.productionTip = false;
 
 Vue.use(Buefy, {
   defaultIconPack: 'fas',
-  defaultIconComponent: 'vue-fontawesome'
+  defaultIconComponent: 'vue-fontawesome',
 });
 Vue.use(rtdbPlugin);
+Vue.use(skeleton);
 
 new Vue({
   router,
   render: h => h(App),
-}).$mount('#app')
+}).$mount('#app');

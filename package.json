@@ -14,6 +14,7 @@
     "buefy": "^0.8.10",
     "core-js": "^3.4.4",
     "firebase": "^7.8.0",
+    "tb-skeleton": "^0.3.6",
     "vue": "^2.6.10",
     "vue-router": "^3.1.5",
     "vuefire": "^2.2.1"

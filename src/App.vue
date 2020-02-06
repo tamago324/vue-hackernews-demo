@@ -80,6 +80,10 @@ export default {
 </script>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 #app {
   margin: 1rem auto;
   max-width: 820px;
