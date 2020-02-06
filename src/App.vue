@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="container">
     <b-pagination
       :total="total"
       :current="current"
@@ -82,6 +82,6 @@ export default {
 <style>
 #app {
   margin: 1rem auto;
-  width: 820px;
+  max-width: 820px;
 }
 </style>
