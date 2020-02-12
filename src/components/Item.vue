@@ -29,7 +29,10 @@
           </div>
           <div class="has-text-gley-light small">
             by <a href="#">{{ itemBy }}</a> {{ time(itemTime) }} ago |
-            <a href="#">{{ descentants }} comments</a>
+            <router-link
+              :to="{ name: 'commentList', params: { storyId: itemId } }"
+              >{{ descentants }} comments</router-link
+            >
           </div>
         </div>
       </article>
@@ -38,35 +41,35 @@
 </template>
 
 <script>
-import {api} from '../db.js';
+import { api } from "../db.js";
 
 export default {
-  name: 'Item',
+  name: "Item",
 
   data() {
     return {
-      item: null,
+      item: null
     };
   },
 
   // もらった id をもとに取得するため、関数にしている
   firebase() {
     return {
-      item: api.child(`/item/${this.itemId}`),
+      item: api.child(`/item/${this.itemId}`)
     };
   },
 
   props: {
     itemId: {
       type: Number,
-      required: true,
-    },
+      required: true
+    }
   },
 
   computed: {
     site() {
-      if (this.getProperty('url') === '') {
-        return '';
+      if (this.getProperty("url") === "") {
+        return "";
       }
       let parser = new URL(this.item.url);
       return parser.host;
@@ -74,28 +77,28 @@ export default {
 
     descentants() {
       // コメントが 0 件の場合、含まれないため
-      return this.getProperty('descendants') || 0;
+      return this.getProperty("descendants") || 0;
     },
 
     itemScore() {
-      return this.getProperty('score');
+      return this.getProperty("score");
     },
 
     itemUrl() {
-      return this.getProperty('url');
+      return this.getProperty("url");
     },
 
     itemTitle() {
-      return this.getProperty('title');
+      return this.getProperty("title");
     },
 
     itemTime() {
-      return this.getProperty('time');
+      return this.getProperty("time");
     },
 
     itemBy() {
-      return this.getProperty('by');
-    },
+      return this.getProperty("by");
+    }
   },
 
   methods: {
@@ -108,28 +111,28 @@ export default {
       const min = diff_milisec / 1000 / 60;
 
       if (min < 60) {
-        return Math.trunc(min) + ' ' + (min === 1 ? 'min' : 'mins');
+        return Math.trunc(min) + " " + (min === 1 ? "min" : "mins");
       }
 
       const hour = Math.trunc(min / 60);
 
       if (hour < 24) {
         // 小数点以下を切り捨て
-        return hour + ' ' + (hour === 1 ? 'hour' : 'hours');
+        return hour + " " + (hour === 1 ? "hour" : "hours");
       }
 
       const day = Math.trunc(hour / 24);
-      return day + ' ' + (day === 1 ? 'day' : 'days');
+      return day + " " + (day === 1 ? "day" : "days");
     },
 
     // null の可能性もある？ため、チェックする
     getProperty(key) {
       if (this.item === null || !(key in this.item)) {
-        return '';
+        return "";
       }
       return this.item[key];
-    },
-  },
+    }
+  }
 };
 </script>
 
