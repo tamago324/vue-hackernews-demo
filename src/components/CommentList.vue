@@ -1,23 +1,45 @@
 <template>
   <div>
-    <Comment :comment-id="22308204"/>
+    <template v-for="comment in getProperty('kids')" >
+      <Comment :comment-id="comment" v-bind:key="comment"/>
+    </template>
   </div>
 </template>
 
 <script>
+import { api } from "../db.js";
+import { property } from "../util.js";
 import Comment from "./Comment.vue";
 
 export default {
   name: "CommentList",
 
   components: {
-    Comment,
+    Comment
+  },
+
+  data() {
+    return {
+      story: null
+    };
   },
 
   props: {
     storyId: {
-      type: String,
+      type: Number,
       required: true
+    }
+  },
+
+  firebase() {
+    return {
+      story: api.child(`/item/${this.storyId}`)
+    };
+  },
+
+  methods: {
+    getProperty(key) {
+      return property(this.story, key);
     }
   }
 };

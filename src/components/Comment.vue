@@ -52,7 +52,7 @@ export default {
 .comment-container {
   display: flex;
   flex-direction: column;
-  margin-top: 0.3rem;
+  margin-top: 1rem;
 }
 
 .top-wrapper {
@@ -64,8 +64,7 @@ export default {
 }
 
 .content {
-  margin-left: 1rem;
-  font-weight: bold;
+  margin-left: 30px;
 }
 
 .small {
