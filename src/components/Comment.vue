@@ -1,24 +1,49 @@
 <template>
   <div class="comment-container">
     <div class="top-wrapper">
-      <a href="#" class="small">{{ name }}</a>
-      <a href="#" class="small">{{ time }}</a>
+      <a href="#" class="small">{{ getProperty("by") }}</a>
+      <a href="#" class="small">{{ getTime(getProperty("time")) }}</a>
       <a href="#" class="small">[ - ]</a>
     </div>
-    <div class="content">{{ comment }}</div>
+    <div class="content" v-html="getProperty('text')"></div>
   </div>
 </template>
 
 <script>
+import { api } from '../db.js';
+import { time, property } from "../util.js";
+
 export default {
   name: "Comment",
 
   data() {
     return {
-      name: "tamago324",
-      time: "10 mins ago",
-      comment: "LeaderF very cool!!! I love Vim!"
+      comment: null,
     };
+  },
+
+  props: {
+    commentId: {
+      type: Number,
+      require: true,
+    }
+  },
+
+  firebase() {
+    return {
+      comment: api.child(`/item/${this.commentId}`)
+    }
+  },
+
+  methods: {
+    getTime(t) {
+      return time(t);
+    },
+
+    getProperty(key) {
+      return property(this.comment, key);
+    }
+
   }
 };
 </script>

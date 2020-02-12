@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Comment />
+    <Comment :comment-id="22308204"/>
   </div>
 </template>
 

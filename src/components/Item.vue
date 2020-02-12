@@ -28,7 +28,7 @@
             <span class="has-text-grey-light small"> ({{ site }})</span>
           </div>
           <div class="has-text-gley-light small">
-            by <a href="#">{{ itemBy }}</a> {{ time(itemTime) }} ago |
+            by <a href="#">{{ itemBy }}</a> {{ getTime(itemTime) }} ago |
             <router-link
               :to="{ name: 'commentList', params: { storyId: itemId } }"
               >{{ descentants }} comments</router-link
@@ -42,6 +42,7 @@
 
 <script>
 import { api } from "../db.js";
+import { time, property } from "../util.js";
 
 export default {
   name: "Item",
@@ -102,35 +103,12 @@ export default {
   },
 
   methods: {
-    time(t) {
-      const now = Date.now();
-      const unixtime = new Date(t * 1000);
-      // ミリ秒で取得できる
-      const diff_milisec = now - unixtime.getTime();
-
-      const min = diff_milisec / 1000 / 60;
-
-      if (min < 60) {
-        return Math.trunc(min) + " " + (min === 1 ? "min" : "mins");
-      }
-
-      const hour = Math.trunc(min / 60);
-
-      if (hour < 24) {
-        // 小数点以下を切り捨て
-        return hour + " " + (hour === 1 ? "hour" : "hours");
-      }
-
-      const day = Math.trunc(hour / 24);
-      return day + " " + (day === 1 ? "day" : "days");
+    getTime(t) {
+      return time(t);
     },
 
-    // null の可能性もある？ため、チェックする
     getProperty(key) {
-      if (this.item === null || !(key in this.item)) {
-        return "";
-      }
-      return this.item[key];
+      return property(this.item, key);
     }
   }
 };
