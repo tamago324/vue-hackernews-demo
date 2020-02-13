@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <template v-for="commentId in comments" >
+  <div class="comment-list">
+    <template v-for="commentId in comments">
       <Comment :comment-id="commentId" v-bind:key="commentId"/>
     </template>
   </div>
@@ -32,4 +32,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+  .comment-list {
+    margin: 0 0.3rem;
+  }
+</style>

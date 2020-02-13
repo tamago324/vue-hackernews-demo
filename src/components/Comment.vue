@@ -68,8 +68,11 @@ export default {
 
   /* 2 個目以降荷適用される */
 .top-wrapper a:nth-child(n + 2) {
-  margin: 0 0.5rem;
+  margin-left: 0.8rem;
 }
+  .top-wrapper a {
+    font-size: 0.8rem;
+  }
 
 /* .content { */
 /*   margin-left: 30px; */
@@ -81,6 +84,6 @@ export default {
 }
 
   .comment-list {
-    margin: 0 30px;
+    margin-left: 30px;
   }
 </style>
