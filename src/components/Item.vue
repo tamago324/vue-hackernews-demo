@@ -30,7 +30,7 @@
           <div class="has-text-gley-light small">
             by <a href="#">{{ itemBy }}</a> {{ getTime(itemTime) }} ago |
             <router-link
-              :to="{ name: 'commentList', params: { storyId: itemId } }"
+              :to="{ name: 'commentList', params: { comments: getProperty('kids') } }"
               >{{ descentants }} comments</router-link
             >
           </div>

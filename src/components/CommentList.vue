@@ -1,13 +1,12 @@
 <template>
   <div>
-    <template v-for="comment in getProperty('kids')" >
-      <Comment :comment-id="comment" v-bind:key="comment"/>
+    <template v-for="commentId in comments" >
+      <Comment :comment-id="commentId" v-bind:key="commentId"/>
     </template>
   </div>
 </template>
 
 <script>
-import { api } from "../db.js";
 import { property } from "../util.js";
 import Comment from "./Comment.vue";
 
@@ -18,23 +17,11 @@ export default {
     Comment
   },
 
-  data() {
-    return {
-      story: null
-    };
-  },
-
   props: {
-    storyId: {
-      type: Number,
+    comments: {
+      type: Array,
       required: true
     }
-  },
-
-  firebase() {
-    return {
-      story: api.child(`/item/${this.storyId}`)
-    };
   },
 
   methods: {
