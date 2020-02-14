@@ -45,6 +45,14 @@ export default {
       return this.$parent.topStories.slice(start, end);
     },
   },
+
+  beforeRouteUpdate(to, from, next) {
+    if (parseInt(to.params.page) === 0 && parseInt(from.params.page) === 1) {
+      next(false);
+      return;
+    }
+    next();
+  }
 };
 </script>
 
