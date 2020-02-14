@@ -75,7 +75,9 @@ export default {
     $route(to) {
       this.current = to.params.page;
     },
+
   },
+
 };
 </script>
 

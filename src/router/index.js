@@ -14,7 +14,7 @@ export default new Router({
       component: ItemList,
       props: true,
     }, {
-      path: '/story/:storyid/comments',
+      path: '/story/comments',
       name: 'commentList',
       component: CommentList,
       props: true,

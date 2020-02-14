@@ -1,7 +1,8 @@
 <template>
   <div class="comment-list">
+    <p class="title is-5">{{ title }}</p>
     <template v-for="commentId in comments">
-      <Comment :comment-id="commentId" v-bind:key="commentId"/>
+      <Comment :comment-id="commentId" v-bind:key="commentId" />
     </template>
   </div>
 </template>
@@ -21,6 +22,10 @@ export default {
     comments: {
       type: Array,
       required: true
+    },
+    title: {
+      type: String,
+      required: true
     }
   },
 
@@ -28,12 +33,16 @@ export default {
     getProperty(key) {
       return property(this.story, key);
     }
-  }
+  },
+
 };
 </script>
 
 <style scoped>
-  .comment-list {
-    margin: 0 0.3rem;
-  }
+.title {
+  margin-top: 0.3rem;
+}
+.comment-list {
+  margin: 0 0.3rem;
+}
 </style>
