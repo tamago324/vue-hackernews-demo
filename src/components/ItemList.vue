@@ -5,7 +5,7 @@
         v-bind:key="itemId"
         class="story"
         v-bind="{
-          itemId: itemId,
+          itemId: itemId
         }"
       />
     </template>
@@ -13,24 +13,24 @@
 </template>
 
 <script>
-import Item from './Item.vue';
+import Item from "./Item.vue";
 
 export default {
-  name: 'ItemList',
+  name: "ItemList",
 
   components: {
-    Item,
+    Item
   },
 
   props: {
     page: {
-      type: Number,
-    },
+      type: Number
+    }
   },
 
   data() {
     return {
-      topStories: [],
+      perPage: 10
     };
   },
 
@@ -39,15 +39,20 @@ export default {
       if (this.$parent.topStories === null) {
         return [];
       }
-      const start = (this.page - 1) * 10;
-      const end = this.page * 10;
+      const start = (this.page - 1) * this.perPage;
+      const end = this.page * this.perPage;
       // 親のデータにアクセス
       return this.$parent.topStories.slice(start, end);
-    },
+    }
   },
 
   beforeRouteUpdate(to, from, next) {
-    if (parseInt(to.params.page) === 0 && parseInt(from.params.page) === 1) {
+    // 
+    const totalPage = Math.ceil(this.$parent.topStories.length / this.perPage);
+    if (
+      parseInt(to.params.page) <= 0 ||
+      parseInt(to.params.page) > totalPage
+    ) {
       next(false);
       return;
     }
