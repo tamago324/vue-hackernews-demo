@@ -9,6 +9,9 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
+      path: '/',
+      redirect: '/topstories/1'
+    }, {
       path: '/topstories/:page',
       name: 'page',
       component: ItemList,
